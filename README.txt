@@ -55,3 +55,51 @@ Please provide your version of this project as a git repository (e.g. Github, Bi
 A fork of this repo, or a Pull Request would be suitable.
 
 Good luck!
+
+
+Test submission:
+Re-designed the project using Spring boot with maven, in memory database H2-console and used docker container for deployment.
+
+Running instructions:
+1.Docker(Prerequisite - Docker desktop should be installed on the machine)
+    a.mvn clean package
+    b.Build the Docker Image- Run below command through terminal
+      docker build -t cake-manager .
+    c. Run Docker Container through terminal:
+       docker run -p 8080:8080 cake-manager
+    d. Access the app at http://localhost:8080
+
+2. Intellij Idea:
+   a. Run the Springboot application by specifying CakeManagerApplication class file through Edit Configurations.
+   b. Access the app at http://localhost:8080
+
+3. Access apis though curl commands from terminal with Git Bash:
+Apis are protected with Basic auth with username and password added in application.properties.
+    user=user123, admin=admin123
+   a. Get all cakes
+      curl -u user:user123 http://localhost:8080/cakes
+   b.Create Cake (POST)
+       curl -X POST http://localhost:8080/cakes \
+       -u admin:admin123 \
+       -H "Content-Type: application/json" \
+       -d '{"title": "Choco", "desc": "Dark", "image": "img.jpg"}'
+   c.Delete Cake
+      curl -X DELETE http://localhost:8080/cakes/1 -u admin:admin123
+   d.Update Cake
+      curl -X PUT http://localhost:8080/cakes/1 \
+      -u admin:admin123 \
+      -H "Content-Type: application/json" \
+      -d '{"title": "Updated", "desc": "New desc", "image": "new.jpg"}'
+    e. Find a cake
+        curl -u admin:admin123 http://localhost:8080/cakes/1
+4. Through postman Basic Auth can access all the apis.
+5. Access the in memory database H2-console-http://localhost:8080/h2-console
+   Select * from cakes;
+6. Swagger ui- http://localhost:8080/swagger-ui/index.html
+
+Future scope:
+a. To access H2-console in docker mode need to add server config with webAllowOthers and tcpAllowOthers.
+b. Add .dockerignore file for project to optimize Docker builds by excluding unnecessary files.
+
+
+
